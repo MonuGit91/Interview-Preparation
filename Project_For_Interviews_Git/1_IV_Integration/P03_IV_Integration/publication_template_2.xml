@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IGCSecurityDocument
+    xmlns="http://www.infograph.com">
+    <IsoBanners>
+        <PublishBanners>
+            <IsoBannerFontName string="Arial"/>
+            <IsoBannerFontHeight string="12"/>
+            <IsoBannerColor string="0,0,255"/>
+            <BottomLeft string="Printed By: {printedBy}&#10;Printed On: {printedOn}&#10;&#10;" style="padding-top:20px"/>
+        </PublishBanners>
+    </IsoBanners>
+</IGCSecurityDocument>

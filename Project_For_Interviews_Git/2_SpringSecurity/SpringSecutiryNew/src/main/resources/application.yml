@@ -1,0 +1,48 @@
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+  profiles:
+    active: dev
+  app:
+    jwtSecret: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL" # 528-bit Base64 Key
+    jwtExpirationMs: 300000000
+    frontend-url: http://127.0.0.1:5500/frontend/index.html # Live Server Default URL
+    
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 
+    YOUR_PASSWORD org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: false
+
+  sql:
+    init:
+      # [IMPORTANT] Database Initialization Mode
+      # - Use 'always': For the FIRST run to create tables (WARNING: This runs schema.sql which drops existing data!)
+      mode: never
+      encoding: UTF-8
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: YOUR_CLIENT_ID
+            client-secret: YOUR_CLIENT_SECRET
+            scope:
+              - email
+              - profile
+          #Spring Security follows a convention: /oauth2/authorization/{registrationId}. Since you named your registration google, Spring automatically listens on /oauth2/authorization/google.
+          #If you renamed it to github in the YAML, the URL would automatically change to /oauth2/authorization/github.
+
+server:
+  port: 8080

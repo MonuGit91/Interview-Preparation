@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Spring Security</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="glass-container">
+        <h3>Login Form</h3>
+
+        <form id="loginForm" onsubmit="event.preventDefault(); return false;">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password" required
+                    onkeydown="if(event.key==='Enter') handleLogin()">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="handleLogin()">Sign In</button>
+        </form>
+        
+
+        <div class="divider">OR</div>
+
+        <button id="googleBtn" class="btn btn-google">
+            <!-- Simple Google Icon SVG -->
+            <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M17.64 9.20455C17.64 8.56636 17.5827 7.95273 17.4764 7.36364H9V10.845H13.8436C13.635 11.97 13.0009 12.9232 12.0477 13.5614V15.8195H14.9564C16.6582 14.2527 17.64 11.9455 17.64 9.20455Z"
+                    fill="white" />
+                <path
+                    d="M9 18C11.43 18 13.4673 17.1941 14.9564 15.8195L12.0477 13.5614C11.2418 14.1014 10.2109 14.4205 9 14.4205C6.65591 14.4205 4.67182 12.8373 3.96409 10.71H0.957275V13.0418C2.43818 15.9832 5.48182 18 9 18Z"
+                    fill="white" />
+                <path
+                    d="M3.96409 10.71C3.78409 10.17 3.68182 9.59318 3.68182 9C3.68182 8.40682 3.78409 7.83 3.96409 7.29V4.95818H0.957275C0.347727 6.17318 0 7.54773 0 9C0 10.4523 0.347727 11.8268 0.957275 13.0418L3.96409 10.71Z"
+                    fill="white" />
+                <path
+                    d="M9 3.57955C10.3214 3.57955 11.5077 4.03364 12.4405 4.92545L15.0218 2.34409C13.4632 0.891818 11.4259 0 9 0C5.48182 0 2.43818 2.01682 0.957275 4.95818L3.96409 7.29C4.67182 5.16273 6.65591 3.57955 9 3.57955Z"
+                    fill="white" />
+            </svg>
+            Sign in with Google
+        </button>
+
+        <p style="text-align: center; margin-top: 20px;">
+            Don't have an account? <a href="register.html"
+                style="color: white; font-weight: bold; text-decoration: none;">Sign Up</a>
+        </p>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content glass-container" style="max-width: 400px; text-align: center;">
+            <h3 id="modalTitle" style="color: #ff4d4d; margin-bottom: 10px;">Error</h3>
+            <p id="modalMessage" style="margin-bottom: 20px;">Something went wrong</p>
+            <button type="button" onclick="closeModal()" class="btn btn-primary"
+                style="background: #ff4d4d;">Close</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

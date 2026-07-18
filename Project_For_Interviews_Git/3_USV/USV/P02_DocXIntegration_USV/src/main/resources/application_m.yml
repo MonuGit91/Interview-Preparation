@@ -1,0 +1,79 @@
+server:
+   port: 8089
+#spring:
+#  datasource:
+#    url: jdbc:oracle:thin:@localhost:1521/orclpdb
+#    username: monu
+#    password: YOUR_PASSWORD
+#    driver-class-name: oracle.jdbc.OracleDriver
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update   # Use 'validate' for safety; use 'update' only if you want Hibernate to alter schema
+#    show-sql: false
+#    properties:
+#      hibernate:
+#        #dialect: org.hibernate.dialect.Oracle12cDialect  # More compatible than Oracle21cDialect for most setups
+#        jdbc:
+#          batch_size: 30
+#        order_inserts: true
+#        order_updates: true
+#        generate_statistics: false
+#
+#logging:
+#  level:
+#    root: INFO
+#    org.hibernate.SQL: WARN                          # Show only warnings
+#    org.hibernate.type.descriptor.sql: ERROR         # Show only errors
+#    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: ERROR
+
+otcs:
+   credentials:
+      auth-api: /v1/auth
+#      username: ""
+#      password: ""
+#      otcsticket: notCreated
+#   category:
+#      category-id: ""
+#      feild-names:
+#        OtcsUserId : ""
+#        GDriveDocId : ""
+   api: 
+      base-url: ""
+      get-doc: /api/v1/nodes/{id}/content/{name}
+      search-docs: /api/v2/search
+      category-info: /api/v2/nodes/{id}/categories/{category_id}/
+      node-property: /api/v2/nodes/{nodeId}?fields=properties
+      child-node-property: /api/v2/nodes/{parentId}/nodes?fields=properties&limit=100  #this api will give properties of 100 children of parent folder
+      user-info: /api/v2/members/{id}
+      add-version: /api/v1/nodes/{id}/versions
+      reserve-toggle: /api/v2/nodes/{id}
+      remove-category: /api/v1/nodes/{id}/categories/{category_id}/
+      add-category: /api/v2/nodes/{id}/categories
+      update-category: /v2/nodes/{id}/categories/{category_id}/
+      auth:
+         auth-api: /api/v1/auth
+ 
+gdrive:
+   app-port: 8888 #should be same as redirect_uri port
+   credentials:
+#      credentials-file-path: src/main/resources/static/client_secret_fileUploader2.json
+#      credentials-file-path: ..\gdrive_credential\client_secret_fileUploader2.json
+      credentials-file-path: gdrive_credential\client_secret_fileUploader2.json
+      grant-type: refresh_token
+      scopes:
+         scopes-appdata: https://www.googleapis.com/auth/drive.appdata
+         scopes-file: https://www.googleapis.com/auth/drive.file
+         scopes-drive: https://www.googleapis.com/auth/drive
+   api:
+      access-token-uri: https://oauth2.googleapis.com/token
+      resumable-upload-uri: https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable
+      list-subfolders-uri: https://www.googleapis.com/drive/v3/files
+      create-folder-uri: https://www.googleapis.com/drive/v3/files
+      download-drive-doc-uri: https://www.googleapis.com/drive/v3/files/{fileId}?alt=media
+      download-doc-export-uri: https://www.googleapis.com/drive/v3/files/{fileId}/export?mimeType=application/vnd.openxmlformats-officedocument.wordprocessingml.document
+      delete-doc-url: https://www.googleapis.com/drive/v3/files/{fileId}
+   folder:
+      root: YOUR_GDRIVE_FOLDER_ID
+   docx : https://docs.google.com/document/d/{id}/edit  #This is gdrive url templace for opening .docx file
+   other : https://drive.google.com/file/d/{id}/view  #This is gdrive url templace for opening other then .docx file

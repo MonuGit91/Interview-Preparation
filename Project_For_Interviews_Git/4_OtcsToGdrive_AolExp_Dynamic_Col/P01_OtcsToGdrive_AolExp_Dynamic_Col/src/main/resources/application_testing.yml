@@ -1,0 +1,83 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/orclpdb
+    username: monu
+    password: YOUR_PASSWORD
+    driver-class-name: oracle.jdbc.OracleDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: none   # Use 'validate' for safety; use 'update' only if you want Hibernate to alter schema
+    show-sql: false
+    properties:
+      hibernate:
+        #dialect: org.hibernate.dialect.Oracle12cDialect  # More compatible than Oracle21cDialect for most setups
+        jdbc:
+          batch_size: 30
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false
+
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: WARN                          # Show only warnings
+    org.hibernate.type.descriptor.sql: ERROR         # Show only errors
+    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: ERROR
+
+table:
+   table-name: VM_Document_Metadata
+
+otcs:
+   root-folder-id: 214255
+   parent-types:
+     "0": "folder"
+     "3030329": "Library"
+     "3030202": "Community"
+     "31066": "Binder"
+     "31067": "Contracts"
+   credentials:
+      auth-api: /v1/auth
+      username: Admin
+      password: YOUR_PASSWORD
+      otcsticket: notCreated
+   category:
+      category-id: "214695"
+      feild-names:
+        Parent_Id : ""
+        Doc_Id : ""
+        Name : ""
+        Path : ""
+        Link : ""
+        Created_By: ""
+        Created_On: ""
+        Document_Name: "214695_2"
+        Document_Description: "214695_3"
+        Pages: "214695_4"
+#        Type:
+#          type1: 1
+#          type2: 2
+   api:
+      base-url: http://YOUR_LOCAL_IP/otcs/cs.exe/api
+      get-doc: /v1/nodes/{id}/content/{name}
+      search-docs: /v2/search
+      category-info: /v2/nodes/{id}/categories/{category_id}/
+      node-property: /v2/nodes/{nodeId}?fields=properties
+      child-node-property: /v2/nodes/{parentId}/nodes?fields=properties&limit=100  #this api will give properties of 100 children of parent folder
+      user-info: /v2/members/{id}
+
+local:
+  root-folder: YOUR_LOCAL_PATH
+
+gdrive-service:
+    credentials:
+     path: D:\MonuChoudhary\PlayGround\SupaiInfotechProject\New Eclipse WorkSpace\P01_OtcsToGdrive_AolExport\P01_OtcsToGdrive_AolExp_Dynamic_Col\src\main\resources\service-account.json
+#     path: C:\Users\svc-otextadmin\Downloads\AOLExport\P01_OtcsToGdrive_AolExport_multiThread\src\main\resources\service-account.json
+#     path: src/main/resources/credential.json
+
+gdrive:
+   folder:
+      root: YOUR_GDRIVE_FOLDER_ID
+#      root: 196nmUKnn2VxS1gliRRYhgsxWBMBFD4Sf
+   docx : https://docs.google.com/document/d/{id}/edit  #This is gdrive url templace for opening .docx file
+   other : https://drive.google.com/file/d/{id}/view  #This is gdrive url templace for opening other then .docx file

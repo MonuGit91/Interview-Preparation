@@ -1,0 +1,112 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:xe  # Update with your DB host/service name
+    username: your_oracle_user
+    password: YOUR_PASSWORD
+    driver-class-name: oracle.jdbc.OracleDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle19cDialect  # or Oracle12cDialect
+        jdbc:
+          batch_size: 30
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false
+        batch_versioned_data: true
+
+
+logging:
+  level:
+    org.hibernate.SQL: OFF                     # Suppress SQL logs
+    org.hibernate.type.descriptor.sql: OFF     # Suppress parameter binding logs
+
+otcs:
+   root-folder-id: 166820
+   parent-types:
+     "0": "folder"
+     "3030329": "Library"
+     "3030202": "Community"
+     "31066": "Binder"
+     "31067": "Contracts"
+   credentials:
+      auth-api: /v1/auth
+      username: Admin
+      password: YOUR_PASSWORD
+      otcsticket: notCreated
+   category:
+      category-id: "167148"
+      feild-names:
+        DocId : ""
+        Name : ""
+        Path : ""
+        Link : ""
+        Created By: ""
+        Created On: ""
+        Contract Title: "167148_2"
+        ML#: "167148_3"
+        Parent's ML#: "167148_4"
+        Agreement Type: "167148_5"
+        Document Type: "167148_7"
+        Contract Status: "167148_8"
+        Responsible Yahoos: "167148_9"
+        Executed Agreement?: "167148_10"
+        Transacting?: "167148_11"
+        Standard Terms and Conditions: "167148_12"
+        Contract Description/Overview: "167148_13"
+        Contracting Regions:
+          Americas: "167148_14_1_15"
+          ASIA: "167148_14_1_16"
+          EMEA: "167148_14_1_17"
+          Latin America: "167148_14_1_18"
+        Contracting Party: "167148_19"
+        Contract Transaction Details:
+          Counter Party: "167148_20_x_21"           
+          Transaction Currency: "167148_20_x_22"
+          Transaction Rate: "167148_20_x_23"
+          Effective End Date: "167148_20_x_24"
+          Derogation: "167148_20_x_26"
+          Derogation Date: "167148_20_x_27"
+          VAT: "167148_20_x_28"
+          WithHolding Tax: "167148_20_x_29"
+        Signing Date: "167148_30"
+        Effective Date: "167148_31"
+        Invoice Required: "167148_36"
+        Invoicing Frequency: "167148_32"
+        Comments VAT: "167148_33"
+        Comments WHT: "167148_34"
+        Other Comments: "167148_35"
+      user-feild-names:
+        Policy Writer/Owner: "166703_5"
+        Policy Approver: "166703_6"
+   api:
+      base-url: http://YOUR_LOCAL_IP/otcs/cs.exe/api
+      get-doc: /v1/nodes/{id}/content/{name}
+      search-docs: /v2/search
+      category-info: /v2/nodes/{id}/categories/{category_id}/
+      node-property: /v2/nodes/{nodeId}?fields=properties
+      child-node-property: /v2/nodes/{parentId}/nodes?fields=properties&limit=100  #this api will give properties of 100 children of parent folder
+      user-info: /v2/members/{id}
+local:
+      root-folder: YOUR_LOCAL_PATH
+
+gdrive:
+   credentials:
+      client-id: YOUR_CLIENT_ID
+      client-secret: YOUR_CLIENT_SECRET
+      grant-type: refresh_token
+      refresh-token: YOUR_REFRESH_TOKEN
+      access-token: notCreated
+   api:
+      access-token: https://oauth2.googleapis.com/token
+      resumable-upload: https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable
+      list-subfolders: https://www.googleapis.com/drive/v3/files
+      create-folder: https://www.googleapis.com/drive/v3/files
+   folder:
+      root-Supai: YOUR_GDRIVE_FOLDER_ID
+   docx : https://docs.google.com/document/d/{id}/edit  #This is gdrive url templace for opening .docx file
+   other : https://drive.google.com/file/d/{id}/view  #This is gdrive url templace for opening other then .docx file

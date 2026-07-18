@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<IsoBannersAndWatermarks
+    xmlns="http://www.opentext.com/renditions/cdl/banners"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:schemaLocation="http://www.opentext.com/renditions/cdl/banners OTCDLIsoBanners.xsd" version="1.0">
+    <IsoBannersPageGroup min_page="" max_page="">
+        <PublishBanners>
+            <Watermark opacity="0.25">
+                <TextFragment index="1" opacity="0.25" font="sans-serif" bold="true" italic="true" underline="true" color="#FF0000"></TextFragment>
+            </Watermark>
+            <Banners>
+                <Banner location="TopCenter">
+                    <TextFragment index="1" opacity="NaN" size="18" font="sans-serif" bold="false" italic="false" underline="false" color="#009ce0">{topBanner}</TextFragment>
+                </Banner>
+            </Banners>
+        </PublishBanners>
+    </IsoBannersPageGroup>
+</IsoBannersAndWatermarks>
