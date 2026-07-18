@@ -1,0 +1,53 @@
+server:
+   port: 8900
+
+oauth:
+   client-id: "YOUR_CLIENT_ID"
+   client-secret: "YOUR_CLIENT_SECRET"
+
+otds:
+  base: "http://inhovalotds:8080/otdsws/rest"
+  user-id: "iv_api_user" #For OtdsTicker and OtcsTicket
+  password: "YOUR_PASSWORD" #For OtcsTicket
+  api:
+    authenticate: "${otds.base}/authentication/credentials"
+    impersonate-user: "${otds.base}/authentication/ticketforuser"
+
+banner:
+  top-banners: ["Effective", "For Reference Only"]
+
+iv:
+  base:  
+    pub: "http://inhovalotiv.glenmark.com:3356/publication" 
+    art: "http://inhovalotiv.glenmark.com:3350" #
+    pub-value: ${otcs.base.common} #http://inhodevotcsfe1.glenmark.com:80/OTCS/cs.exe
+    markup: http://inhovalotiv.glenmark.com:3352/markup #
+  api:
+    pub: "/api/v1/viewx/pub" #http://inhodevotcsfe1.glenmark.com/OTCS/llisapi.dll/api/v1/viewx/pub
+    publication: "${iv.base.pub}/api/v1/publications"
+    status: "${iv.base.pub}/api/v1/publications/{publicationId}" ##http://inhovalotiv.glenmark.com:3356/publication/api/v1/publications/1159fad0-a338-4bde-b02f-943afb81d6dd
+    download: "${iv.base.art}/artifacts/fs-0/publications/{id}/pdf/new.pdf"
+    merge: "${otcs.base.common}/api/v1/viewx/transform"
+    graph-ql: "${iv.base.markup}/api/v1/graphql"
+    graph-ql-followup: "${otcs.base.common}/api/v1/viewx/text/{nodeId}/{versionNo}"
+
+ticketType: "otdsTicket"
+
+otcs:
+  qr-code: ${otcs.base.common}/api/v1/viewx/data/nodes/{imgNodeId}/versions/{imgVersion}/content
+  base:
+    common: http://inhovalotcsfe1.glenmark.com/otcs/cs.exe #
+  api:
+    auth-api: /api/v1/auth
+    create-or-copy-node: /api/v2/nodes
+    get-doc: /api/v1/nodes/{id}/content/{name}
+    search-docs: /api/v2/search
+    category-info: /api/v2/nodes/{nodeId}/categories/{category_id}/
+    node-property: /api/v2/nodes/{nodeId}?fields=properties
+    child-node-property: /api/v2/nodes/{parentId}/nodes?limit={pageLimit}&page={pageNo}&fields=properties  #this api will give properties of 100 children of {pageNo} of parent folder
+    user-info: /api/v2/memberss/{id}
+    add-or-get-version: /api/v1/nodes/{nodeId}/versions
+    reserve-toggle: /api/v2/nodes/{id}
+    remove-category: /api/v1/nodes/{id}/categories/{category_id}/
+    add-category: /api/v2/nodes/{id}/categories
+    update-category: /v2/nodes/{id}/categories/{category_id}/

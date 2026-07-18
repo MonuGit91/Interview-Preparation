@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Flow: /pdf/banner1 API Endpoint</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #f43f5e;
+            --border: #334155;
+            --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #a5b4fc, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2rem;
+        }
+
+        .flowchart-wrapper {
+            background-color: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow-x: auto;
+        }
+
+        /* Stages Layout */
+        .stage {
+            border: 1px dashed #475569;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            background-color: rgba(15, 23, 42, 0.3);
+        }
+
+        .stage-title {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background-color: var(--bg-secondary);
+            padding: 0 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--primary);
+        }
+
+        .step-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        /* Flow Cards */
+        .step-card {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            width: 260px;
+            min-height: 120px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        .step-card.active {
+            border-color: var(--success);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+        }
+
+        .step-num {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background-color: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .step-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            padding-right: 20px;
+        }
+
+        .step-meta {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-family: monospace;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            align-self: flex-start;
+        }
+
+        /* Connecting Arrows (SVG representation styled in HTML) */
+        .connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+        }
+
+        /* Detail Panel Sidebar */
+        .sidebar {
+            background-color: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 2rem;
+            align-self: start;
+            height: calc(100vh - 8rem);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            background-color: rgba(15, 23, 42, 0.5);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .detail-code {
+            font-family: monospace;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            color: #a5b4fc;
+        }
+
+        .speaking-notes {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 1rem;
+        }
+
+        .speaking-notes p {
+            font-size: 0.9rem;
+            color: #d1fae5;
+            font-style: italic;
+        }
+
+        /* Exception handling block design */
+        .exception-section {
+            grid-column: 1 / -1;
+            margin-top: 2rem;
+            background-color: rgba(244, 63, 94, 0.05);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .exception-section h3 {
+            color: var(--danger);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .exception-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .exception-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--danger);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .exception-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .exception-body {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Pulse animation for active arrows */
+        .arrow-line {
+            stroke-dasharray: 8;
+            animation: dash 1s linear infinite;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -16;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Interactive API Execution Flow</h1>
+        <p>A deep-dive interactive flowchart of the <strong>POST /pdf/banner1</strong> middleware transaction lifecycle.</p>
+    </header>
+
+    <div class="container">
+        <!-- Flowchart Panel -->
+        <div class="flowchart-wrapper">
+            
+            <!-- STAGE 1 -->
+            <div class="stage">
+                <div class="stage-title">Phase 1: Entry & Templating</div>
+                <div class="step-row">
+                    <div class="step-card" onclick="showDetails(1)" id="card-1">
+                        <span class="step-num">1</span>
+                        <div class="step-title">REST Gate Input</div>
+                        <span class="step-meta">ReqController.java</span>
+                    </div>
+
+                    <div class="connector">
+                        <svg width="60" height="24">
+                            <line x1="0" y1="12" x2="50" y2="12" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)" class="arrow-line" />
+                            <defs>
+                                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#6366f1" />
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+
+                    <div class="step-card" onclick="showDetails(2)" id="card-2">
+                        <span class="step-num">2</span>
+                        <div class="step-title">XML Banner Serialization</div>
+                        <span class="step-meta">PdfService1.java</span>
+                    </div>
+
+                    <div class="connector">
+                        <svg width="60" height="24"><line x1="0" y1="12" x2="50" y2="12" stroke="#6366f1" stroke-width="2" class="arrow-line" /></svg>
+                    </div>
+
+                    <div class="step-card" onclick="showDetails(3)" id="card-3">
+                        <span class="step-num">3</span>
+                        <div class="step-title">Base64 XML Encoding</div>
+                        <span class="step-meta">XmlObjFactory.java</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 2 -->
+            <div class="stage">
+                <div class="stage-title">Phase 2: Authentication & Token Exchange</div>
+                <div class="step-row">
+                    <div class="step-card" onclick="showDetails(4)" id="card-4">
+                        <span class="step-num">4</span>
+                        <div class="step-title">OTDS Ticket Caching</div>
+                        <span class="step-meta">OtdsToken.java</span>
+                    </div>
+
+                    <div class="connector">
+                        <svg width="60" height="24"><line x1="0" y1="12" x2="50" y2="12" stroke="#6366f1" stroke-width="2" class="arrow-line" /></svg>
+                    </div>
+
+                    <div class="step-card" onclick="showDetails(5)" id="card-5">
+                        <span class="step-num">5</span>
+                        <div class="step-title">OTCS Session Exchange</div>
+                        <span class="step-meta">OtcsToken.java</span>
+                    </div>
+
+                    <div class="connector">
+                        <svg width="60" height="24"><line x1="0" y1="12" x2="50" y2="12" stroke="#6366f1" stroke-width="2" class="arrow-line" /></svg>
+                    </div>
+
+                    <div class="step-card" onclick="showDetails(6)" id="card-6">
+                        <span class="step-num">6</span>
+                        <div class="step-title">IV Bearer Exchange</div>
+                        <span class="step-meta">IVTicket.java</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 3 -->
+            <div class="stage">
+                <div class="stage-title">Phase 3: Transformation & Status Polling</div>
+                <div class="step-row">
+                    <div class="step-card" onclick="showDetails(7)" id="card-7">
+                        <span class="step-num">7</span>
+                        <div class="step-title">IV Render Job Submit</div>
+                        <span class="step-meta">Publication.java</span>
+                    </div>
+
+                    <div class="connector">
+                        <svg width="60" height="24"><line x1="0" y1="12" x2="50" y2="12" stroke="#6366f1" stroke-width="2" class="arrow-line" /></svg>
+                    </div>
+
+                    <div class="step-card" onclick="showDetails(8)" id="card-8">
+                        <span class="step-num">8</span>
+                        <div class="step-title">Reactive Status Polling</div>
+                        <span class="step-meta">PublicationStatus.java</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 4 -->
+            <div class="stage">
+                <div class="stage-title">Phase 4: Persistence & Version Commit</div>
+                <div class="step-row">
+                    <div class="step-card" onclick="showDetails(9)" id="card-9">
+                        <span class="step-num">9</span>
+                        <div class="step-title">Self-Healing Download</div>
+                        <span class="step-meta">DownloadArtifact.java</span>
+                    </div>
+
+                    <div class="connector">
+                        <svg width="60" height="24"><line x1="0" y1="12" x2="50" y2="12" stroke="#6366f1" stroke-width="2" class="arrow-line" /></svg>
+                    </div>
+
+                    <div class="step-card" onclick="showDetails(10)" id="card-10">
+                        <span class="step-num">10</span>
+                        <div class="step-title">Multipart Version Upload</div>
+                        <span class="step-meta">AddVersion.java</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Sidebar Panel for Details -->
+        <div class="sidebar">
+            <h2>Step Diagnostics</h2>
+            <div id="details-empty" style="color: var(--text-secondary); text-align: center; margin-top: 5rem;">
+                Click any card in the flowchart to view code signatures, payload templates, and interviewer explanation scripts.
+            </div>
+            
+            <div id="details-content" style="display: none;">
+                <div class="detail-section">
+                    <div class="detail-label">Active Component</div>
+                    <div class="detail-value" id="detail-component">ReqController.java</div>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-label">Logic Operations</div>
+                    <div class="detail-value" id="detail-logic">Operation details</div>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-label">Data Structures</div>
+                    <div class="detail-value" id="detail-data">Data type</div>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-label">Exceptions Potential</div>
+                    <div class="detail-value" id="detail-exceptions" style="color: var(--danger);">None</div>
+                </div>
+                <div class="speaking-notes">
+                    <div class="detail-label" style="color: var(--success); font-weight: 700;">💡 Interview Speaking Script</div>
+                    <p id="detail-script">How to explain this step verbally.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exception Handling Panel -->
+        <div class="exception-section">
+            <h3>⚠️ Unified Exception Translation & Fault Tolerance</h3>
+            <div class="exception-grid">
+                <div class="exception-card">
+                    <div class="exception-title">1. Downstream Interception</div>
+                    <div class="exception-body">
+                        All wrappers monitor HTTP statuses from Directory Services and Content Server. If a non-2xx code returns, it is caught immediately and translated into an <code>ExternalApiException</code>.
+                    </div>
+                </div>
+                <div class="exception-card">
+                    <div class="exception-title">2. Centralized Advice</div>
+                    <div class="exception-body">
+                        A unified controller advice class intercepts <code>ExternalApiException</code>, hides the internal java stack traces, maps the error to a clean JSON and sends the exact matching HTTP code to clients.
+                    </div>
+                </div>
+                <div class="exception-card">
+                    <div class="exception-title">3. Resilience Policies</div>
+                    <div class="exception-body">
+                        Using <strong>Resilience4j</strong>, client integrations implement <strong>Circuit Breakers</strong> and <strong>Retry with Exponential Backoff</strong>, isolating thread resources during outages.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stepData = {
+            1: {
+                component: "ReqController.java - convertToPDF1()",
+                logic: "Receives POST request at '/pdf/banner1'. Intercepts request payload and triggers validation check on parameters. Converts incoming JSON to PdfRequest1 model.",
+                data: "Input: PdfRequest1 (wraps ToPdfRequest & XmlBanners1Json)",
+                exceptions: "RuntimeException (Json Parsing failed)",
+                script: "I state that the Controller acts as the API gateway boundary, executing payload validation immediately to ensure invalid stamps are rejected before burning system resources."
+            },
+            2: {
+                component: "PdfService1.java - getXmlContent()",
+                logic: "Reads map values inside placements. If horizontal=true, joins entries with '|'. If horizontal=false, splits entries vertically with XML newline code entity. Compiles the Java object.",
+                data: "Input: XmlBanners1Json | Output: XML String matching OpenText IsoBannersAndWatermarks Schema",
+                exceptions: "RuntimeException (XML Serialization failure)",
+                script: "I explain how we built dynamic templates on the fly by mapping layout structures to structured objects, which Jackson XML writes, and then clean numeric character references for proper layouts."
+            },
+            3: {
+                component: "XmlObjFactory.java - xmlBase64Incoded()",
+                logic: "Base64 encodes the formatted XML string. Intelligent Viewing accepts banners as an inline data URI payload.",
+                data: "Input: Plaintext XML String | Output: Base64 String formatted as data:application/xml;base64,...",
+                exceptions: "IOException (Encoding error)",
+                script: "Since IV requires layout instructions to be passed in-line inside the publication request body, we base64 encode the generated XML configuration."
+            },
+            4: {
+                component: "OtdsToken.java - getOtdsToken()",
+                logic: "Authenticates credentials against OTDS to fetch the Identity Ticket. Caches the ticket key in Redis to prevent excessive roundtrips.",
+                data: "Calls POST /authentication/credentials | Cache storage: Redis key 'otds:ticket' with 25m TTL",
+                exceptions: "ExternalApiException (OTDS ticket generation failure - 401 Unauthorized)",
+                script: "To prevent authentication bottlenecks, we cache our OTDS authentication tickets in Redis with a Time-To-Live. This reduces token exchange overhead by 90%."
+            },
+            5: {
+                component: "OtcsToken.java - getOtcsTicketJson()",
+                logic: "Exchanges the cached OTDS Ticket with Content Server auth endpoint to generate an active repository session token.",
+                data: "Calls POST /api/v1/auth | Returns: OTCS Ticket JsonNode",
+                exceptions: "ExternalApiException (OTCS Session authentication failure - 401/500)",
+                script: "Next, we exchange the cached ticket for a Content Server ticket, giving us access to repository nodes."
+            },
+            6: {
+                component: "IVTicket.java - callPubApi()",
+                logic: "Exchanges the session ticket to generate an IV Bearer Token valid for the latest version of the target document.",
+                data: "Calls POST /api/v1/viewx/pub | Returns: IvTicketResponse (Token & pubId)",
+                exceptions: "ExternalApiException (IV Ticket session failure - 502/504 Gateway)",
+                script: "We request a short-lived viewer token from the IV gateway for the target document. The connection pool reuse prevents socket leaks during authentication."
+            },
+            7: {
+                component: "Publication.java - callPdfPublicatinApi_()",
+                logic: "Submits the PDF rendition request containing the source file's repository location and base64 banner payload to the transformation pipeline.",
+                data: "POST /api/v1/publications | Returns: Publication ID (jobId)",
+                exceptions: "ExternalApiException (Transformation submission failure - 400 Bad Request / 500)",
+                script: "We POST a publication job to IV. I design this endpoint as asynchronous: returning a '202 Accepted' immediately to clients and performing polling in background threads."
+            },
+            8: {
+                component: "PublicationStatus.java - callPublicationStatus()",
+                logic: "Polles the IV Status API. Runs in non-blocking interval loops until status turns to 'Complete' or 'Failed'.",
+                data: "GET /api/v1/publications/{jobId}/status | Period: 2 seconds",
+                exceptions: "ExternalApiException (Job execution failed - status returned Failed / 504 Timeout)",
+                script: "Since rendering is high-latency, we poll the status using reactive timers (WebClient Flux.interval). When complete, we download; if failed or timed out, we throw an Exception."
+            },
+            9: {
+                component: "DownloadArtifact.java - downloadDoc()",
+                logic: "Downloads the stamped PDF binary bytes using the Bearer Token. Integrates self-healing retry logic.",
+                data: "GET /api/v1/publications/{id}/artifacts | Returns: byte[]",
+                exceptions: "ExternalApiException (Download failed - 502 Bad Gateway after 3 retry loops)",
+                script: "We download the PDF byte array. We built network resilience using Resilience4j to automatically retry download calls up to 3 times before failing the client request."
+            },
+            10: {
+                component: "AddVersion.java - addVersion()",
+                logic: "Commits the PDF bytes back to OTCS as a new version using a Multipart/form-data POST request.",
+                data: "POST /api/v1/nodes/{id}/versions | Returns: Upload Confirmation JSON metadata",
+                exceptions: "ExternalApiException (Repository commit failure - 403 Forbidden / 409 Conflict)",
+                script: "Lastly, we upload the stamped bytes as a new version to OTCS, ensuring version history is preserved, and return the metadata confirming completion."
+            }
+        };
+
+        function showDetails(stepNum) {
+            // Remove active classes
+            document.querySelectorAll('.step-card').forEach(card => card.classList.remove('active'));
+            
+            // Add active class
+            document.getElementById(`card-${stepNum}`).classList.add('active');
+
+            // Set content
+            const data = stepData[stepNum];
+            document.getElementById('details-empty').style.display = 'none';
+            
+            const content = document.getElementById('details-content');
+            content.style.display = 'block';
+            
+            document.getElementById('detail-component').textContent = data.component;
+            document.getElementById('detail-logic').textContent = data.logic;
+            document.getElementById('detail-data').textContent = data.data;
+            document.getElementById('detail-exceptions').textContent = data.exceptions;
+            document.getElementById('detail-script').textContent = data.script;
+        }
+    </script>
+</body>
+</html>

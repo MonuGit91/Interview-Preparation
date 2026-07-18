@@ -1,0 +1,69 @@
+{
+    "Banners": [
+        {
+            "location": "TopCenter",
+            "TextFragment": {
+                "index": 1,
+                "opacity": "NaN",
+                "size": 12,
+                "font": "sans-serif",
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "color": "#000000",
+                "includesKey": false,
+                "hogigental": false,
+                "content": {}
+            }
+        },
+        {
+            "location": "BottomLeft",
+            "TextFragment": {
+                "index": 1,
+                "opacity": "NaN",
+                "size": 12,
+                "font": "sans-serif",
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "color": "#000000",
+                "includesKey": false,
+                "hogigental": false,
+                "content": {}
+            }
+        },
+        {
+            "location": "BottomCenter",
+            "TextFragment": {
+                "index": 1,
+                "opacity": "NaN",
+                "size": 12,
+                "font": "sans-serif",
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "color": "#000000",
+                "includesKey": false,
+                "hogigental": false,
+                "content": {}
+            }
+        },
+        {
+            "location": "BottomRight",
+            "TextFragment": {
+                "index": 1,
+                "opacity": "NaN",
+                "size": 12,
+                "font": "sans-serif",
+                "bold": false,
+                "italic": false,
+                "underline": false,
+                "color": "#000000",
+                "string": "Page:%Page of %TotalPages\n\n",
+                "includesKey": false,
+                "hogigental": false,
+                "content": {}
+            }
+        }
+    ]
+}

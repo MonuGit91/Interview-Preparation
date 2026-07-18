@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Spring Security</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="glass-container">
+        <h2>Create Account</h2>
+
+        <form id="registerForm">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Choose a username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Choose a password" required>
+            </div>
+            <div class="input-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+            </div>
+            <!-- Role selection could be here, but usually hidden/default for public registration -->
+
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+
+        <div class="divider">OR</div>
+
+        <p style="text-align: center; margin-top: 20px;">
+            Already have an account? <a href="login.html"
+                style="color: white; font-weight: bold; text-decoration: none;">Login</a>
+        </p>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content glass-container" style="max-width: 400px; text-align: center;">
+            <h3 id="modalTitle" style="color: #ff4d4d; margin-bottom: 10px;">Error</h3>
+            <p id="modalMessage" style="margin-bottom: 20px;">Something went wrong</p>
+            <button onclick="closeModal()" class="btn btn-primary" style="background: #ff4d4d;">Close</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

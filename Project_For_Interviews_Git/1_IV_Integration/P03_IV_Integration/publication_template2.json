@@ -1,0 +1,74 @@
+{
+  "publicationVersion": "1.x",
+  "policy": {
+    "namespace": "opentext.publishing",
+    "name": "CouldBeAnything",
+    "version": "1.x"
+  },
+  "tags": [
+    {
+      "bravaView": "pdfExport",
+      "onSuccess": "download"
+    }
+  ],
+  "featureSettings": [
+    {
+      "feature": {
+        "namespace": "opentext.publishing.sources",
+        "name": "LoadSources",
+        "version": "1.x"
+      },
+      "path": "/documents",
+      "value": [
+        {
+          "formatHint": "pdf",
+          "supportFiles": [],
+          "filenameHint": "new",
+          "url": "{baseUrl}/api/v1/viewx/data/nodes/{nodeId}/versions/{versionNo}/content"
+        }
+      ]
+    },
+    {
+      "feature": {
+        "namespace": "opentext.publishing.content",
+        "name": "ApplyBannersWatermarks",
+        "version": "1.x"
+      },
+      "path": "/url",
+      "value": "data:application/xml;base64,{incodedXML}"
+    },
+    {
+      "feature": {
+        "namespace": "opentext.publishing.renditions",
+        "name": "ExportPdf",
+        "version": "2.x"
+      },
+      "path": "/fastWeb",
+      "value": false
+    },
+    {
+      "feature": {
+        "namespace": "opentext.publishing.execution",
+        "name": "FetchMarkup",
+        "version": "2.1.x"
+      },
+      "path": "/sources",
+      "value": [
+        {
+          "id": "doc0markups",
+          "source": "{ver_id}",
+          "cvtToken": "{markupToken}"
+        }
+      ]
+    },
+    {
+      "feature": {
+        "namespace": "opentext.publishing.content",
+        "name": "SetExportPageList",
+        "version": "1.x"
+      },
+      "path": "/exportPageList",
+      "value": "{pagrRange}"
+    }
+  ]
+}

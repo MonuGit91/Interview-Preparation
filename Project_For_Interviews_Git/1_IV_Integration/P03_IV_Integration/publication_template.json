@@ -1,0 +1,41 @@
+{
+  "publicationVersion": "1.x",
+  "policy": {
+    "namespace": "opentext.publishing",
+    "name": "CouldBeAnything",
+    "version": "1.x"
+  },
+  "tags": [
+    {
+      "bravaView": "pdfExport",
+      "onSuccess": "newVersion"
+    }
+  ],
+  "featureSettings": [
+    {
+      "feature": {
+        "namespace": "opentext.publishing.sources",
+        "name": "LoadSources",
+        "version": "1.x"
+      },
+      "path": "/documents",
+      "value": [
+        {
+          "formatHint": "pdf",
+          "supportFiles": [],
+          "filenameHint": "new",
+          "url": "{baseUrl}/api/v1/viewx/data/nodes/{nodeId}/versions/{versionNo}/content"
+        }
+      ]
+    },
+    {
+      "feature": {
+        "namespace": "opentext.publishing.renditions",
+        "name": "ExportPdf",
+        "version": "2.x"
+      },
+      "path": "/fastWeb",
+      "value": false
+    }
+  ]
+}

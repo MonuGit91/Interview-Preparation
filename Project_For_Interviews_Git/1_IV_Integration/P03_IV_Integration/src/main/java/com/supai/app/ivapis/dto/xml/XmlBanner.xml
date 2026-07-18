@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<IsoBannersAndWatermarks
+    xmlns="http://www.opentext.com/renditions/cdl/banners"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:schemaLocation="http://www.opentext.com/renditions/cdl/banners OTCDLIsoBanners.xsd" version="1.0">
+    <IsoBannersPageGroup min_page="" max_page="">
+        <PublishBanners>
+            <Banners>
+                <Banner location="TopCenter">
+                    <TextFragment index="1" opacity="NaN" size="12" font="sans-serif" bold="false" italic="false" underline="false" color="{banner_colour_TopCenter}">{banner_text_TopCenter}</TextFragment>
+                </Banner>
+                <Banner location="BottomLeft">
+                    <TextFragment index="1" opacity="NaN" size="12" font="sans-serif" bold="false" italic="false" underline="false" color="{banner_colour_BottomLeft}">{banner_text_BottomLeft}</TextFragment>
+                </Banner>
+                <Banner location="BottomCenter">
+                    <TextFragment index="1" opacity="NaN" size="12" font="sans-serif" bold="false" italic="false" underline="false" color="{banner_colour_BottomCenter}">{banner_text_BottomCenter}</TextFragment>
+                </Banner>
+                <Banner location="BottomRight">
+                    <TextFragment index="1" opacity="NaN" size="12" font="sans-serif" bold="false" italic="false" underline="false" color="{banner_colour_BottomRight}">{banner_text_BottomRight}</TextFragment>
+                </Banner>
+            </Banners>
+        </PublishBanners>
+    </IsoBannersPageGroup>
+</IsoBannersAndWatermarks>

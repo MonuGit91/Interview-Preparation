@@ -1,0 +1,12 @@
+server:
+  port: 8081
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost/crudsqldb?createDatabaseIfNotExist=true
+    username: root
+    password: YOUR_PASSWORD
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect

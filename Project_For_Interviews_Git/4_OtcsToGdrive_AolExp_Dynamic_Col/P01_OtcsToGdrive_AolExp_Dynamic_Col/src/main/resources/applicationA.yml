@@ -1,0 +1,108 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@YOUR_DATABASE_HOST:1521/OTEXTPRD
+    username: cs
+    password: YOUR_PASSWORD	    
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    hibernate:
+      ddl-auto: update   # Use 'validate' for safety; use 'update' only if you want Hibernate to alter schema
+    show-sql: false
+    properties:
+      hibernate:
+        #dialect: org.hibernate.dialect.Oracle12cDialect  # More compatible than Oracle21cDialect for most setups
+        jdbc:
+          batch_size: 30
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false
+ 
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: WARN                          # Show only warnings
+    org.hibernate.type.descriptor.sql: ERROR         # Show only errors
+    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: ERROR
+ 
+otcs:
+   root-folder-id: 11009072
+   parent-types:
+     "0": "folder"
+     "3030329": "Library"
+     "3030202": "Community"
+     "31066": "Binder"
+     "31067": "Contracts"
+   credentials:
+      auth-api: /v1/auth
+      username: Admin
+      password: YOUR_PASSWORD
+      otcsticket: notCreated
+   category:
+      category-id: 1647707
+      feild-names:
+        ParentId : ""
+        DocId : ""
+        Name : ""
+        Path : ""
+        Link : ""
+        Created By: ""
+        Created On: ""
+        Contract Title: "1647707_2"
+        ML#: "1647707_3"
+        Parent's ML#: "1647707_4"
+        Agreement Type: "1647707_5"
+        Document Type: "1647707_7"
+        Contract Status: "1647707_8"
+        Responsible Yahoos: "1647707_9"
+        Executed Agreement?: "1647707_10"
+        Transacting?: "1647707_11"
+        Standard Terms and Conditions: "1647707_12"
+        Contract Description/Overview: "1647707_13"
+        Contracting Regions:
+          Americas: "1647707_14_1_15"
+          ASIA: "1647707_14_1_16"
+          EMEA: "1647707_14_1_17"
+          Latin America: "1647707_14_1_18"
+        Contracting Party: "1647707_19"
+        Contract Transaction Details:
+          Counter Party: "1647707_20_x_21"           # here x is a variable and it always starts with 1
+          Transaction Currency: "1647707_20_x_22"
+          Transaction Rate: "1647707_20_x_23"
+          Effective End Date: "1647707_20_x_24"
+          Derogation: "1647707_20_x_26"
+          Derogation Date: "1647707_20_x_27"
+          VAT: "1647707_20_x_28"
+          WithHolding Tax: "1647707_20_x_29"
+        Signing Date: "1647707_30"
+        Effective Date: "1647707_31"
+        Invoice Required: "1647707_36"
+        Invoicing Frequency: "1647707_32"
+        Comments VAT: "1647707_33"
+        Comments WHT: "1647707_34"
+        Other Comments: "1647707_35"
+      user-feild-names:
+        Policy Writer/Owner: "166703_5"
+        Policy Approver: "166703_6"
+
+   api:
+      base-url: http://YOUR_OTCS_HOST/otcs/cs.exe/api
+      get-doc: /v1/nodes/{id}/content/{name}
+      search-docs: /v2/search
+      category-info: /v2/nodes/{id}/categories/{category_id}/
+      node-property: /v2/nodes/{nodeId}?fields=properties
+      child-node-property: /v2/nodes/{parentId}/nodes?fields=properties&limit=100  #this api will give properties of 100 children of parent folder
+      user-info: /v2/members/{id}
+ 
+local:
+  root-folder: YOUR_LOCAL_PATH
+ 
+gdrive-service:
+    credentials:
+      path: src/main/resources/credential.json
+ 
+gdrive:
+   folder:
+      root: YOUR_GDRIVE_FOLDER_ID
+   docx : https://docs.google.com/document/d/{id}/edit  #This is gdrive url templace for opening .docx file
+   other : https://drive.google.com/file/d/{id}/view  #This is gdrive url templace for opening other then .docx file
+ 

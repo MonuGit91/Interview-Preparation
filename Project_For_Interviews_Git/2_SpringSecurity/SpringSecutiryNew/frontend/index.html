@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Spring Security</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="glass-container welcome-card">
+        <h2>Welcome, <span id="usernameDisplay">User</span>!</h2>
+        <p>You have successfully authenticated.</p>
+        <p style="margin-top: 5px; font-size: 0.75rem; opacity: 0.8;">Provider: <b id="providerDisplay">LOCAL</b></p>
+
+        <div style="text-align: left; margin-top: 10px;">
+            <p style="font-size: 0.7rem; margin-bottom: 2px; opacity: 0.7;">Access Token:</p>
+            <div class="token-display" id="tokenPreview"></div>
+
+            <p style="font-size: 0.7rem; margin-bottom: 2px; opacity: 0.7; margin-top: 8px;">Refresh Token:</p>
+            <div class="token-display" id="refreshTokenPreview"></div>
+        </div>
+
+        <button id="logoutBtn" class="btn btn-primary"
+            style="background: rgba(255,100,100,0.8); color: white;">Logout</button>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
