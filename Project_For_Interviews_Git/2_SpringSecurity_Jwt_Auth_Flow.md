@@ -20,7 +20,7 @@ graph TD
     %% Elements
     Start((Client issues REST Call)):::startEnd
     
-    subgraph Step 1: Token Extraction & Signature Check
+    subgraph "Step 1: Token Extraction & Signature Check"
         Filter[JwtAuthFilter Intercepts Request]:::process
         GetHeader[Extract 'Authorization' header]:::process
         D1{Starts with 'Bearer '?}:::decision
@@ -29,20 +29,20 @@ graph TD
         Reject1[Return 401 Unauthorized]:::exception
     end
 
-    subgraph Step 2: Redis Blacklist Check
+    subgraph "Step 2: Redis Blacklist Check"
         CheckRedis[Query Redis Cache for JWT string]:::process
         D3{Is Token Blacklisted?}:::decision
         Reject2[Return 401: Token Blacklisted / Logged Out]:::exception
     end
 
-    subgraph Step 3: Provider & UserDetails Resolution
+    subgraph "Step 3: Provider & UserDetails Resolution"
         ReadClaims[Extract Username & Provider claims from payload]:::process
         D4{Provider == 'GOOGLE'?}:::decision
         LoadGoogle[Fetch UserDetails via OAuthUserService]:::process
         LoadLocal[Fetch UserDetails via UserDetailsService]:::process
     end
 
-    subgraph Step 4: Security Context Configuration
+    subgraph "Step 4: Security Context Configuration"
         CreateAuth[Build UsernamePasswordAuthenticationToken]:::process
         SetContext[Inject Authentication into SecurityContextHolder]:::process
         PassChain[Forward request along FilterChain]:::process
@@ -73,7 +73,7 @@ graph TD
     PassChain --> EndResponse
 
     %% Exception Handling
-    subgraph Exception Gateway
+    subgraph "Exception Gateway"
         Err[Catch Filter Exception]:::exception
         LogErr[Log details silently to SLF4J]:::exception
     end

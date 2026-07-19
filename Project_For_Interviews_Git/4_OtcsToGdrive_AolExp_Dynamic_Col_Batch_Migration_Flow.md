@@ -20,7 +20,7 @@ graph TD
     %% Elements
     Start((Migration Job Triggered)):::startEnd
     
-    subgraph Step 1: Pre-Migration & Recursion
+    subgraph "Step 1: Pre-Migration & Recursion"
         Init[Initialize Database Schema & Verify Columns]:::process
         Walk[Walk Directory Tree: Query OTCS Child Nodes]:::process
         D1{Is Subdirectory?}:::decision
@@ -29,7 +29,7 @@ graph TD
         SubmitPool[Submit Document Task to Executor Pool - 30 threads]:::process
     end
 
-    subgraph Step 2: Thread-Safe GDrive Folder Mapping
+    subgraph "Step 2: Thread-Safe GDrive Folder Mapping"
         TaskStart[Worker Thread starts processDocument]:::process
         QueryCache{Is Parent Path Cached in folderIdCache?}:::decision
         GetLock[Acquire Lock for Path in folderLocks]:::process
@@ -38,14 +38,14 @@ graph TD
         SaveCache[Save GDrive Folder ID to Cache & Release Lock]:::process
     end
 
-    subgraph Step 3: Stream & Upload
+    subgraph "Step 3: Stream & Upload"
         Download[Download File bytes from OTCS]:::process
         Upload[Upload File content to target GDrive Folder]:::process
         MapMeta[Filter and map Category fields to JSON metadata]:::process
         StageMeta[Sync Stage: Add record to synchronized lists & CSV]:::process
     end
 
-    subgraph Step 4: Post-Migration Batch Commit
+    subgraph "Step 4: Post-Migration Batch Commit"
         PoolWait[Wait for all threads to terminate: isTerminated]:::process
         D3{Staged metadata list not empty?}:::decision
         UploadCSV[Upload global metadata.csv to GDrive]:::process
@@ -80,7 +80,7 @@ graph TD
     D3 -- No --> EndResponse
 
     %% Exception Handling
-    subgraph Exception Gateway
+    subgraph "Exception Gateway"
         Err[Catch Exception inside Worker Task]:::exception
         ErrLog[Write error diagnostic to ThreadLocal LogBuffer]:::exception
         ErrRelease[Release current locks & allow thread to terminate]:::exception
