@@ -20,7 +20,7 @@ graph TD
     %% Elements
     Start((Client calls POST /gdoc/addVersion)):::startEnd
     
-    subgraph Step 1: Editor Identity Verification
+    subgraph "Step 1: Editor Identity Verification"
         V1[Log Payload & Set Thread Name to otcsDocId <br> for Splunk Correlation ID tracking]:::process
         GetCat[Fetch Category metadata details from OTCS]:::process
         ReadEditor[Extract EditorId from Category field]:::process
@@ -28,7 +28,7 @@ graph TD
         Err1[Throw PermissionException: 400 Bad Request]:::exception
     end
 
-    subgraph Step 2: Unreserve & Version Check
+    subgraph "Step 2: Unreserve & Version Check"
         UnlockNode[Unreserve/Unlock Node in OTCS]:::process
         D2{isAddingVersion == true?}:::decision
         DownGdrive[Download updated file content from GDrive via pooled client]:::process
@@ -36,12 +36,12 @@ graph TD
         SkipUpload[Skip download & version commit <br/> Discard changes message]:::process
     end
 
-    subgraph Step 3: Cleanup & Delete
+    subgraph "Step 3: Cleanup & Delete"
         DelCat[Delete EditorId & GDriveDocId Category attributes from Node]:::process
         DelGdrive[Delete document from Google Drive to prevent leak]:::process
     end
 
-    subgraph Step 4: Response Dispatch
+    subgraph "Step 4: Response Dispatch"
         EndResponse((Return 200 OK with success confirmation)):::success
     end
 
@@ -62,7 +62,7 @@ graph TD
     DelGdrive --> EndResponse
 
     %% Exception Handling
-    subgraph Exception Gateway
+    subgraph "Exception Gateway"
         Err[Catch Exception]:::exception
         ErrLog[Log diagnostic error message to Splunk]:::exception
         ErrReturn((Return 400 Bad Request <br> with error details)):::startEnd

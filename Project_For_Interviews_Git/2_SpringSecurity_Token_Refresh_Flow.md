@@ -21,7 +21,7 @@ graph TD
     Start1((Client POSTs JSON /auth/login/refreshtoken)):::startEnd
     Start2((Client POSTs Cookie /auth/refresh-token-cookie)):::startEnd
     
-    subgraph Step 1: Extraction & Database Check
+    subgraph "Step 1: Extraction & Database Check"
         GetPayload[Read 'refreshToken' from JSON Request Body]:::process
         GetCookie[Scan HttpOnly Cookies for 'refresh_token']:::process
         D1{Token Found in Request?}:::decision
@@ -31,21 +31,21 @@ graph TD
         ReturnErr2[Throw TokenRefreshException: 400 Bad Request]:::exception
     end
 
-    subgraph Step 2: Verification of Expiration
+    subgraph "Step 2: Verification of Expiration"
         CheckExpiry[Compare current timestamp with expiryDate claim]:::process
         D3{Token Expired?}:::decision
         DeleteToken[Delete RefreshToken from DB]:::process
         ReturnErr3[Throw TokenRefreshException: Token Expired]:::exception
     end
 
-    subgraph Step 3: Provider & UserDetails Load
+    subgraph "Step 3: Provider & UserDetails Load"
         ReadUser[Extract username & provider fields from RefreshToken]:::process
         D4{Provider == 'GOOGLE'?}:::decision
         LoadGoogle[Fetch UserDetails via OAuthUserService]:::process
         LoadLocal[Fetch UserDetails via UserDetailsService]:::process
     end
 
-    subgraph Step 4: Access Token Generation
+    subgraph "Step 4: Access Token Generation"
         GenJWT[Generate brand new JWT access token]:::process
         EndResponse((Return 200 OK with new JWT Access Token)):::success
     end
@@ -73,7 +73,7 @@ graph TD
     GenJWT --> EndResponse
 
     %% Exception Gateway
-    subgraph Exception Gateway
+    subgraph "Exception Gateway"
         Err[Catch TokenRefreshException]:::exception
         LogErr[Log refresh failure message]:::exception
         ErrResponse((Return 400 Bad Request JSON: <br/> Error + Message)):::startEnd

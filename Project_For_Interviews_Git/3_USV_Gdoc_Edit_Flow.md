@@ -20,13 +20,13 @@ graph TD
     %% Elements
     Start((Client calls POST /gdoc/edit)):::startEnd
     
-    subgraph Step 1: Request Initialization & Node Check
+    subgraph "Step 1: Request Initialization & Node Check"
         V1[Log Payload & Set Thread Name to otcsDocId <br> for Splunk Correlation ID tracking]:::process
         GetProps[Query OTCS for Node properties]:::process
         D1{Is Reserved/Locked?}:::decision
     end
 
-    subgraph Step 2: Path A - Document Already Reserved (ReadOnly Workflow)
+    subgraph "Step 2: Path A - Document Already Reserved (ReadOnly Workflow)"
         GetCat[Fetch Category details from OTCS]:::process
         ReadGId[Extract GDriveDocId from Category]:::process
         D2{Is Current User the Reserving Editor?}:::decision
@@ -34,7 +34,7 @@ graph TD
         ReturnGId[Return existing GDriveDocId]:::process
     end
 
-    subgraph Step 3: Path B - Document Open (Lock & Upload Workflow)
+    subgraph "Step 3: Path B - Document Open (Lock & Upload Workflow)"
         LockNode[Lock/Reserve Node in OTCS under Current Editor]:::process
         DownDoc[Download source file binary from OTCS]:::process
         CheckRedis{Access Token in Redis Cache?}:::decision
@@ -46,7 +46,7 @@ graph TD
         WriteCat[Apply Category: Save GDriveDocId & EditorId to Node]:::process
     end
 
-    subgraph Step 4: Response Dispatch
+    subgraph "Step 4: Response Dispatch"
         EndResponse((Return 200 OK with GDriveDocId JSON)):::success
     end
 
@@ -77,7 +77,7 @@ graph TD
     WriteCat --> EndResponse
 
     %% Exception Handling
-    subgraph Exception Gateway
+    subgraph "Exception Gateway"
         Err[Catch Exception]:::exception
         ErrLog[Log diagnostic error message to Splunk]:::exception
         ErrReturn((Return 400 Bad Request <br> with error message JSON)):::startEnd
